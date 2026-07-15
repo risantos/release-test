@@ -1,0 +1,41 @@
+{
+  "author": {
+    "email": "rafael@risantos.com",
+    "name": "Rafael Santos"
+  },
+  "bugs": {
+    "url": "https://github.com/risantos/release-test/issues"
+  },
+  "description": "testing release process",
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "onFail": "download",
+      "version": "^12"
+    },
+    "runtime": {
+      "name": "node",
+      "onFail": "download",
+      "version": "^24.18.0"
+    }
+  },
+  "homepage": "https://github.com/risantos/release-test#readme",
+  "keywords": [
+    "release"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "release-test",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/risantos/release-test.git"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "type": "module",
+  "version": "0.0.1",
+  "devDependencies": {
+    "release-it": "^20.2.1"
+  }
+}
