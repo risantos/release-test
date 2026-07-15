@@ -1,0 +1,11 @@
+{
+	"extends": "@tsconfig/node24/tsconfig.json",
+	"compilerOptions": {
+		"erasableSyntaxOnly": true,
+		"noEmit": true,
+		"types": ["node"]
+	},
+	"typeAcquisition": {
+		"enable": true
+	}
+}
