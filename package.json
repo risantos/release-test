@@ -40,7 +40,7 @@
     "test": "test"
   },
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "devDependencies": {
     "@tsconfig/node24": "^24.0.4",
     "@types/node": "^24.13.3",
