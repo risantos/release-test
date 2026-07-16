@@ -36,6 +36,7 @@
     "url": "git+https://github.com/risantos/release-test.git"
   },
   "scripts": {
+    "release": "release-it --config .release-it.prepare.ts",
     "test": "test"
   },
   "type": "module",
@@ -43,6 +44,7 @@
   "devDependencies": {
     "@tsconfig/node24": "^24.0.4",
     "@types/node": "^24.13.3",
+    "@uphold/github-changelog-generator": "^4.0.2",
     "release-it": "^20.2.1",
     "typescript": "^6.0.3"
   }
