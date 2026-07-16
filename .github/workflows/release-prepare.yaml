@@ -4,6 +4,9 @@ on:
   repository_dispatch:
     types: [release-prepare]
 
+permissions:
+  contents: write
+
 jobs:
   prepare:
     runs-on: ubuntu-latest
