@@ -53,4 +53,5 @@ jobs:
 
       - name: Publish to npm
         if: steps.registry.outputs.published != 'true'
-        run: npx release-it --ci --no-increment --config .release-it.publish-npm.ts
+        # `--npm.skipChecks`: release-it checks `npm whoami` first, and that fails with trusted publishing (OIDC).
+        run: npx release-it --ci --no-increment --no-git --no-github --npm.skipChecks
