@@ -29,8 +29,7 @@
   ],
   "license": "MIT",
   "main": "index.js",
-  "name": "release-test",
-  "private": true,
+  "name": "risantos-release-test",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/risantos/release-test.git"
