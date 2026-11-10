@@ -16,6 +16,7 @@ export default {
   hooks: {
     'after:bump': `
       changelog="$(npx @uphold/github-changelog-generator --base-branch main -f v\${version})" &&
+      changelog="$(printf '%s\n' "$changelog" | sed '/^- Release \`v[0-9]/d')" &&
       printf "%s\n%s\n" "$changelog" "$(test -f CHANGELOG.md && tail -n +2 CHANGELOG.md || true)" > CHANGELOG.md &&
       git add CHANGELOG.md --all
     `
