@@ -22,5 +22,9 @@ export default {
     release: true,
     releaseName: 'v${version}',
     tokenRef: 'GITHUB_TOKEN'
+  },
+  npm: {
+    publish: false,
+    skipChecks: true
   }
 } satisfies Config;
