@@ -40,12 +40,23 @@ jobs:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           TAG: ${{ inputs.tag || github.ref_name }}
         run: |
-          # TODO(Rafael): end red (`echo "::error title=<title>::<message>"`, then `exit 1`) unless all are true:
-          #   1. "$TAG" is "v" followed by a valid semver version.
-          #   2. The tagged commit (HEAD) is on "origin/$DEFAULT_BRANCH".
-          #   3. The "version" in package.json is "${TAG#v}".
-          echo "::error title=Tag checks missing::Write the checks in the Check tag step"
-          exit 1
+          # Stable versions only: pre-releases are off for now.
+          if [[ ! "$TAG" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+            echo "::error title=Invalid tag::$TAG is not v<major>.<minor>.<patch>"
+            exit 1
+          fi
+
+          if ! git merge-base --is-ancestor HEAD "origin/$DEFAULT_BRANCH"; then
+            echo "::error title=Tag not on $DEFAULT_BRANCH::The commit of $TAG is not on $DEFAULT_BRANCH"
+            exit 1
+          fi
+
+          version=$(jq -r .version package.json)
+
+          if [[ "$version" != "${TAG#v}" ]]; then
+            echo "::error title=Version mismatch::package.json has $version, but the tag is $TAG"
+            exit 1
+          fi
 
       - name: Read package
         id: package
