@@ -3,7 +3,7 @@ name: Release Prepare
 on:
   workflow_dispatch:
     inputs:
-      bump:
+      VERSION_BUMP:
         description: Version increment
         required: true
         type: choice
@@ -18,10 +18,15 @@ concurrency:
   group: release-prepare
   cancel-in-progress: false
 
+env:
+  VERSION_BUMP: ${{ inputs.VERSION_BUMP }}
+
 jobs:
   prepare:
     runs-on: ubuntu-latest
     permissions:
+      # To start CI on the release branch.
+      actions: write
       contents: write
       pull-requests: write
 
@@ -48,11 +53,10 @@ jobs:
       - name: Get release version
         id: version
         env:
-          BUMP: ${{ inputs.bump }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Keep `--increment=`: in `--release-version minor`, release-it reads `minor` as the flag value and bumps patch.
-          version=$(npm run --silent release -- --ci --increment="$BUMP" --release-version)
+          version=$(npm run --silent release -- --ci --increment="$VERSION_BUMP" --release-version)
 
           if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "::error title=Unexpected version::release-it returned '$version'"
@@ -96,12 +100,6 @@ jobs:
             exit 1
           fi
 
-      - name: Configure git identity
-        if: steps.active.outputs.exists != 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
       - name: Create release commit
         if: steps.active.outputs.exists != 'true'
         env:
@@ -109,6 +107,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ steps.version.outputs.version }}
         run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git switch --create "$BRANCH"
           npm run release -- --ci --increment="$VERSION"
 
@@ -127,3 +127,11 @@ jobs:
 
           url=$(gh pr create --base "$BASE" --head "$BRANCH" --title "Release \`v$VERSION\`" --body-file "$RUNNER_TEMP/body.md")
           echo "::notice title=Release PR opened::$url"
+
+      # GitHub starts no `pull_request` workflow for a PR made with GITHUB_TOKEN. `workflow_dispatch` is the exception.
+      - name: Start CI
+        if: steps.active.outputs.exists != 'true'
+        env:
+          BRANCH: ${{ steps.version.outputs.branch }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run ci.yaml --ref "$BRANCH"
