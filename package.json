@@ -10,13 +10,13 @@
   "devEngines": {
     "packageManager": {
       "name": "npm",
-      "onFail": "download",
+      "onFail": "ignore",
       "version": "^12"
     },
     "runtime": {
       "name": "node",
       "onFail": "download",
-      "version": "^24.18.0"
+      "version": "^26"
     }
   },
   "engines": {
@@ -41,7 +41,7 @@
   "type": "module",
   "version": "1.0.0",
   "devDependencies": {
-    "@tsconfig/node24": "^24.0.4",
+    "@tsconfig/node26": "^26.0.1",
     "@types/node": "^24.13.3",
     "@uphold/github-changelog-generator": "^4.0.2",
     "release-it": "^20.2.1",
