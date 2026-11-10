@@ -25,8 +25,6 @@ jobs:
   prepare:
     runs-on: ubuntu-latest
     permissions:
-      # To start CI on the release branch.
-      actions: write
       contents: write
       pull-requests: write
 
@@ -112,6 +110,7 @@ jobs:
           git switch --create "$BRANCH"
           npm run release -- --ci --increment="$VERSION"
 
+      # GitHub holds the `pull_request` runs of a PR made with GITHUB_TOKEN: a person approves CI on the PR.
       - name: Open release PR
         if: steps.active.outputs.exists != 'true'
         env:
@@ -127,11 +126,3 @@ jobs:
 
           url=$(gh pr create --base "$BASE" --head "$BRANCH" --title "Release \`v$VERSION\`" --body-file "$RUNNER_TEMP/body.md")
           echo "::notice title=Release PR opened::$url"
-
-      # GitHub starts no `pull_request` workflow for a PR made with GITHUB_TOKEN. `workflow_dispatch` is the exception.
-      - name: Start CI
-        if: steps.active.outputs.exists != 'true'
-        env:
-          BRANCH: ${{ steps.version.outputs.branch }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run ci.yaml --ref "$BRANCH"
