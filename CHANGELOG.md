@@ -1,5 +1,9 @@
 # Changelog
 
+## [v1.1.0](https://github.com/risantos/release-test/releases/tag/v1.1.0) (2026-11-12)
+
+- ci: merge the release-tag, publish-npm and publish-github workflows [\#21](https://github.com/risantos/release-test/pull/21) ([risantos](https://github.com/risantos))
+
 ## [v1.0.3](https://github.com/risantos/release-test/releases/tag/v1.0.3) (2026-11-12)
 
 - ci: run release workflow steps in parallel [\#19](https://github.com/risantos/release-test/pull/19) ([risantos](https://github.com/risantos))
