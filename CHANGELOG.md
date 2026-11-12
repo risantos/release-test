@@ -1,5 +1,9 @@
 # Changelog
 
+## [v1.0.3](https://github.com/risantos/release-test/releases/tag/v1.0.3) (2026-11-12)
+
+- ci: run release workflow steps in parallel [\#19](https://github.com/risantos/release-test/pull/19) ([risantos](https://github.com/risantos))
+
 ## [v1.0.2](https://github.com/risantos/release-test/releases/tag/v1.0.2) (2026-11-10)
 
 - chore(deps-dev): bump moment from 2.30.1 to 2.31.0 in the npm_and_yarn group across 1 directory [\#17](https://github.com/risantos/release-test/pull/17) ([dependabot](https://github.com/apps/dependabot))
