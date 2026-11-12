@@ -1,5 +1,11 @@
 # Changelog
 
+## [v1.2.0](https://github.com/risantos/release-test/releases/tag/v1.2.0) (2026-11-12)
+
+- chore(deps-dev): bump @types/node from 24.13.3 to 26.6.6 [\#28](https://github.com/risantos/release-test/pull/28) ([dependabot](https://github.com/apps/dependabot))
+- Add actions.lock [\#30](https://github.com/risantos/release-test/pull/30) ([risantos](https://github.com/risantos))
+- chore: add Dependabot version updates [\#27](https://github.com/risantos/release-test/pull/27) ([risantos](https://github.com/risantos))
+
 ## [v1.1.1](https://github.com/risantos/release-test/releases/tag/v1.1.1) (2026-11-12)
 
 - ci: give git credentials only to the release step [\#25](https://github.com/risantos/release-test/pull/25) ([risantos](https://github.com/risantos))
