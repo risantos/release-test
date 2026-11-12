@@ -41,8 +41,9 @@ jobs:
             uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
             with:
               ref: refs/tags/${{ env.TAG }}
-              # release-it fetches from the remote, so it needs the credentials.
               fetch-depth: 0
+              # Only the Release step gets git credentials, so the install scripts cannot use the write token.
+              persist-credentials: false
 
           - name: Setup Node
             uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
@@ -137,6 +138,9 @@ jobs:
           PLAN_GITHUB: ${{ steps.plan.outputs.github }}
           PLAN_NPM: ${{ steps.plan.outputs.npm }}
         run: |
+          # release-it fetches from the remote, even with `--no-git`.
+          gh auth setup-git --hostname github.com
+
           args=(--ci --no-increment --no-git)
 
           if [[ "$PLAN_NPM" == "true" ]]; then
