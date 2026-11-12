@@ -1,5 +1,11 @@
 # Changelog
 
+## [v1.1.1](https://github.com/risantos/release-test/releases/tag/v1.1.1) (2026-11-12)
+
+- ci: give git credentials only to the release step [\#25](https://github.com/risantos/release-test/pull/25) ([risantos](https://github.com/risantos))
+- chore: link the release in the release-it pull request comment [\#24](https://github.com/risantos/release-test/pull/24) ([risantos](https://github.com/risantos))
+- ci: keep the checkout credentials in the release workflow [\#23](https://github.com/risantos/release-test/pull/23) ([risantos](https://github.com/risantos))
+
 ## [v1.1.0](https://github.com/risantos/release-test/releases/tag/v1.1.0) (2026-11-12)
 
 - ci: merge the release-tag, publish-npm and publish-github workflows [\#21](https://github.com/risantos/release-test/pull/21) ([risantos](https://github.com/risantos))
