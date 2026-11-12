@@ -17,7 +17,7 @@ export default {
     autoGenerate: true,
     comments: {
       submit: true,
-      pr: 'Published on Release `v${version}`'
+      pr: 'Published on release [`${releaseName}`](${releaseUrl})'
     },
     release: true,
     releaseName: 'v${version}',
