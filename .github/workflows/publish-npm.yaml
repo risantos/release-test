@@ -20,28 +20,30 @@ jobs:
       id-token: write
 
     steps:
-      - name: Checkout tag
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          ref: refs/tags/${{ inputs.tag }}
-          fetch-depth: 0
+      # Setup Node does not read the repository (no dependency cache), so it runs while the checkout runs.
+      - parallel:
+          - name: Checkout tag
+            uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+            with:
+              ref: refs/tags/${{ inputs.tag }}
+              fetch-depth: 0
 
-      - name: Setup Node
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: 26
-          # No dependency cache in a job with an OIDC token (cache poisoning).
-          package-manager-cache: false
-          registry-url: 'https://registry.npmjs.org'
+          - name: Setup Node
+            uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+            with:
+              node-version: 26
+              # No dependency cache in a job with an OIDC token (cache poisoning).
+              package-manager-cache: false
+              registry-url: 'https://registry.npmjs.org'
 
       - name: Update npm to match devEngines requirement
         run: npm install -g npm@^12
 
-      - name: Install dependencies
-        run: npm ci
-
+      # Start after the npm update, because the update replaces the npm files that this step uses.
+      # The registry check runs while the dependencies install. It is awaited before the publish.
       - name: Check npm registry
         id: registry
+        background: true
         run: |
           name=$(node -p "require('./package.json').name")
           version=$(node -p "require('./package.json').version")
@@ -50,6 +52,11 @@ jobs:
             echo "::notice title=Already on npm::$name@$version is already published"
             echo "published=true" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Install dependencies
+        run: npm ci
+
+      - wait: [registry]
 
       - name: Publish to npm
         if: steps.registry.outputs.published != 'true'
