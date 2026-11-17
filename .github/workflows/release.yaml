@@ -129,7 +129,8 @@ jobs:
         run: npm ci
 
       # One release-it run publishes to npm first, then creates the GitHub release if npm succeeded.
-      # `.release-it.ts` turns npm publish off for local runs; `--npm.publish` turns it on here.
+      # `.release-it.ts` turns npm publish off by default; `--npm.publish` turns it on here.
+      # `--no-git` and `--no-hooks` skip the commit, tag and changelog steps of the prepare run.
       # release-it takes the version from the checked-out tag, so the release always uses that tag.
       - name: Release
         if: steps.plan.outputs.npm == 'true' || steps.plan.outputs.github == 'true'
@@ -141,7 +142,7 @@ jobs:
           # release-it fetches from the remote, even with `--no-git`.
           gh auth setup-git --hostname github.com
 
-          args=(--ci --no-increment --no-git)
+          args=(--ci --no-increment --no-git --no-hooks)
 
           if [[ "$PLAN_NPM" == "true" ]]; then
             args+=(--npm.publish)

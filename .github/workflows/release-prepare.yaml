@@ -55,7 +55,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          version=$(npm run --silent release -- --ci --increment="$VERSION_BUMP" --release-version)
+          version=$(npm run --silent release -- --ci --no-github --no-npm.publish --increment="$VERSION_BUMP" --release-version)
 
           if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "::error title=Unexpected version::release-it returned '$version'"
@@ -109,7 +109,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git switch --create "$BRANCH"
-          npm run release -- --ci --increment="$VERSION"
+          npm run release -- --ci --no-github --no-npm.publish --increment="$VERSION"
 
       # GitHub holds the `pull_request` runs of a PR made with GITHUB_TOKEN: a person approves CI on the PR.
       - name: Open release PR

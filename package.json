@@ -35,7 +35,7 @@
     "url": "git+https://github.com/risantos/release-test.git"
   },
   "scripts": {
-    "release": "release-it --config .release-it.prepare.ts",
+    "release": "release-it",
     "test": "test"
   },
   "type": "module",
